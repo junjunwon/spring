@@ -12,26 +12,31 @@
 	<title>게시판</title>
 	<style type="text/css">
 		li {list-style:none; float:left; padding:6px;}
+
 	</style>
+	
+	
 </head>
+
 <body>
+
 	<div class="container">
 	
 		<header>
-			<h1>게시판</h1>
+			<div>
+				<%@include file="nav_bar.jsp" %>
+			</div>
+			<div>
+				<%@include file="nav.jsp" %>
+				<br>
+			</div>
 		</header>
-		<hr />
-		
-		<div>
-			<%@include file="nav.jsp" %>
-		</div>
-		
 		
 		<section id="container">
 			<form role="form" method="get">
+
 				<table class="table table-hover">
-					
-					<tr><th>번호</th><th>제목</th><th>작성자</th><th>등록일</th></tr>
+					<tr><th>번호</th><th>제목</th><th>작성자</th><th>등록일</th><th>조회수</th></tr>
 					
 					<c:forEach items="${list}" var = "list">
 							<tr>
@@ -46,6 +51,7 @@
 							
 								<td><c:out value="${list.writer}" /></td>
 								<td><fmt:formatDate value="${list.regdate}" pattern="yyyy-MM-dd"/></td>
+								<td><c:out value="${list.hit}" /></td>
 							</tr>
 					</c:forEach>
 						

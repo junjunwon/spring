@@ -28,8 +28,10 @@ public class MemberController {
 	
 	//회원가입 get
 	@RequestMapping(value="/register", method=RequestMethod.GET)
-	public void getRegister() throws Exception{
-		logger.info("get register");
+	public void getRegister(MemberVO vo) throws Exception{
+		logger.info("get registerView");
+		//int name_result=service.nameChk(vo);
+		//System.out.println(name_result);
 	}
 	
 	//회원가입 폼으로 이동할 때에는 GET메서드를 타고 회원가입 버튼을 눌렀을 때 POST메서드를 타게끔 작성한다.
@@ -39,13 +41,16 @@ public class MemberController {
 	public String postRegister(MemberVO vo) throws Exception{
 		
 		logger.info("post register");
-		int result=service.idChk(vo);
-		
+		int id_result=service.idChk(vo);
+		int name_result=service.nameChk(vo);
+		System.out.println(name_result);
 		try {
-			System.out.println("service.register complete"+result);
-			if(result==1) {
+			System.out.println("service.register complete"+id_result);
+			if(id_result==1 || name_result==1) {
+				
+				
 				return "/member/register";
-			}else if(result==0) {
+			}else if(id_result==0 && name_result==0) {
 				service.register(vo);
 				
 			} 			
@@ -63,6 +68,8 @@ public class MemberController {
 		
 		return "member/memberUpdateView";
 	}
+	
+	
 	//회원정보 수정 POST
 	@RequestMapping(value="/memberUpdate", method=RequestMethod.POST)
 	public String registerUpdate(MemberVO vo, HttpSession session) throws Exception{
@@ -114,6 +121,14 @@ public class MemberController {
 		return result;
 	}
 	
+	//닉네임 중복 체크
+	@ResponseBody
+	@RequestMapping(value="/nameChk", method=RequestMethod.POST)
+	public int nameChk(MemberVO vo) throws Exception{
+		int result=service.nameChk(vo);
+		return result;
+	}
+	
 	//로그인 Post
 	@RequestMapping(value="/login", method=RequestMethod.POST)
 	public String login(MemberVO vo, HttpServletRequest req, RedirectAttributes rttr) throws Exception{
@@ -127,6 +142,7 @@ public class MemberController {
 			rttr.addFlashAttribute("msg", false);
 		} else {
 			session.setAttribute("member", login);
+			return "redirect:/board/list";
 
 		}
 		

@@ -16,7 +16,7 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 		$(".cancel").on("click", function(){
-			location.href="/";
+			history.back();
 		})
 		$("#submit").on("click", function(){
 			if($("#userPass").val()==""){
@@ -30,6 +30,7 @@
 				return false;
 			}
 		});
+		
 		
 	})
 </script>

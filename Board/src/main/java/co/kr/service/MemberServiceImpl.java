@@ -44,4 +44,11 @@ public class MemberServiceImpl implements MemberService{
 		int result= dao.idChk(vo);
 		return result;
 	}
+	
+	//닉네임 중복 확인
+	@Override
+	public int nameChk(MemberVO vo) throws Exception{
+		int result=dao.nameChk(vo);
+		return result;
+	}
 }

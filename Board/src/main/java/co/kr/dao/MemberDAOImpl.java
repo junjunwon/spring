@@ -44,4 +44,11 @@ public class MemberDAOImpl implements MemberDAO{
 		int result= sqlSession.selectOne("memberMapper.idChk", vo);
 		return result;
 	}
+	
+	//닉네임 중복체크
+	@Override
+	public int nameChk(MemberVO vo) throws Exception{
+		int result=sqlSession.selectOne("memberMapper.nameChk", vo);
+		return result;
+	}
 }

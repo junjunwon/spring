@@ -38,14 +38,22 @@
 			}
 			
 			var idChkVal=$("#idChk").val();
+			var nameChkVal=$("#nameChk").val();
+
 			if(idChkVal=="N"){
-				alert("중복확인 버튼을 눌러주세요.");
+				alert("아이디 중복확인 버튼을 눌러주세요.");
 				$("#idChk").focus();
 				return false;
-			}else if(idChkVal=="Y"){
+			}
+			if(nameChkVal=="N"){
+				alert("닉네임 중복확인 버튼을 눌러주세요.");
+				$("#nameChk").focus();
+				return false;
+			}
+			else if(idChkVal=="Y" && nameChkVal=="Y"){
 				$("#regForm").submit();
 			}
-			
+
 		});
 	})
 	
@@ -62,6 +70,25 @@
 				}else if(data==0){
 					$("#idChk").attr("value","Y");
 					alert("사용 가능한 아이디입니다.");
+				}
+			}
+			
+		})
+	}
+	function fn_nameChk(){
+
+		$.ajax({
+			
+			url:"/member/nameChk",
+			type:"post",
+			dataType:"json",
+			data:{"userName":$("#userName").val()},
+			success:function(data){
+				if(data==1){
+					alert("중복된 닉네임입니다.");
+				}else if(data==0){
+					$("#nameChk").attr("value","Y");
+					alert("사용 가능한 닉네임입니다.");
 				}
 			}
 			
@@ -85,6 +112,7 @@
 			<div class="form-group has-feedback">
 				<label class="control-label" for="userName">성명</label>
 				<input class="form-control" type="text" id="userName" name="userName">
+				<button type="button" class="nameChk" id="nameChk" onclick="fn_nameChk();" value="N">중복확인</button>
 			</div>
 			<div class="form-group has-feedback">
 				<button type="submit" class="btn btn-success" id="submit">회원가입</button>

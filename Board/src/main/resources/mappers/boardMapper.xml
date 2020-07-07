@@ -5,29 +5,79 @@
 <mapper namespace="boardMapper">
   
    <!-- 게시판 글 작성 -->
-   <insert id="insert">
+   <insert id="insert" parameterType="co.kr.vo.BoardVO" useGeneratedKeys="true" keyProperty="bno">
+   	<selectKey keyProperty="bno" resultType="int" order="BEFORE">
+   		SELECT MP_BOARD_SEQ.NEXTVAL FROM DUAL
+   		<!-- dual테이블은 산술 연산이나 가상 컬럼 등의 값을 한번만 출력하고 싶을 때 많이 사용하는 아주 유용한 테이블 -->
+   	</selectKey>
 	   INSERT INTO MP_BOARD(    BNO 
 	   					      , TITLE 
 	   					      , CONTENT 
 	   					      , WRITER  )
-	                 VALUES(    MP_BOARD_SEQ.NEXTVAL 
+	                 VALUES(    #{bno}
 	                 		  , #{title}
 	                 		  , #{content}
 	                 		  , #{writer}  )
    
    </insert>
    
+   <insert id="insertFile" parameterType="hashMap">
+   		INSERT INTO MP_FILE(
+   			FILE_NO,
+   			BNO,
+   			ORG_FILE_NAME,
+   			STORED_FILE_NAME,
+   			FILE_SIZE
+   		)VALUES(
+   			SEQ_MP_FILE_NO.NEXTVAL,
+   			#{BNO},
+   			#{ORG_FILE_NAME},
+   			#{STORED_FILE_NAME},
+   			#{FILE_SIZE}
+   		)
+   </insert>
+   
+   <!-- 첨부파일 조회 -->
+   <select id="selectFileList" parameterType="int" resultType="hashMap">
+		SELECT FILE_NO,
+			   ORG_FILE_NAME,
+			   ROUND(FILE_SIZE/1024, 1) AS FILE_SIZE
+		FROM MP_FILE
+		WHERE BNO=#{BNO} 
+			AND DEL_GB='N'
+		ORDER BY FILE_NO ASC   
+	<!-- ROUND를 이용해 1024로 파일 크기를 나누어 1024당 1로 계산 -->
+   </select>
+   
+   <!-- 첨부파일 다운로드 -->
+   <select id="selectFileInfo" parameterType="hashMap" resultType="hashMap">
+   		SELECT STORED_FILE_NAME,
+  			   ORG_FILE_NAME
+  		FROM MP_FILE
+  		WHERE FILE_NO=#{FILE_NO}
+   </select>
+   
+   <!-- 첨부파일 수정 -->
+   <update id="updateFile" parameterType="hashMap">
+   		UPDATE MP_FILE
+   		SET DEL_GB='Y'
+   		WHERE FILE_NO=#{FILE_NO}
+   </update>
+   
    <select id="listPage" resultType="co.kr.vo.BoardVO" parameterType="co.kr.vo.SearchCriteria">
    		SELECT BNO
    			, TITLE
+   			, CONTENT
    			, WRITER
    			, REGDATE
+   			, HIT
    		FROM (
    			SELECT BNO,
    				   TITLE,
    				   CONTENT,
    				   WRITER,
    				   REGDATE,
+   				   HIT,
    				   ROW_NUMBER() OVER(ORDER BY BNO DESC) AS RNUM
    			FROM MP_BOARD
    			WHERE 1=1
@@ -77,5 +127,13 @@
    		FROM MP_BOARD
    		WHERE BNO=#{bno}
    </delete>
+   
+   <!-- 게시판 조회수 -->
+   <update id="boardHit" parameterType="int">
+   		UPDATE MP_BOARD 
+   		SET HIT=HIT+1
+   		WHERE BNO=#{BNO}
+   </update>
+   
    
 </mapper>

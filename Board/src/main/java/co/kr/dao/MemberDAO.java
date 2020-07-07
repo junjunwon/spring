@@ -18,4 +18,7 @@ public interface MemberDAO {
 	
 	//아이디 중복체크
 	public int idChk(MemberVO vo) throws Exception;
+	
+	//닉네임 중복체크
+	public int nameChk(MemberVO vo) throws Exception;
 }

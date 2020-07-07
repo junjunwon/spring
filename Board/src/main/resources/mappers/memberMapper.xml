@@ -46,4 +46,11 @@
 	SELECT COUNT(*) FROM MP_MEMBER
 	WHERE USERID=#{userId}
 </select>
+
+<!-- 닉네임중복체크 -->
+<select id="nameChk" resultType="int">
+	SELECT COUNT(*) FROM MP_MEMBER
+	WHERE USERNAME=#{userName}
+</select>
+
 </mapper>

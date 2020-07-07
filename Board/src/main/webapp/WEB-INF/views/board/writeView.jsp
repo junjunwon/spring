@@ -23,6 +23,7 @@
 				formObj.attr("method", "post");
 				formObj.submit();
 			});
+			fn_addFile();
 		})
 		function fn_valiChk(){
 			console.log("check");
@@ -34,23 +35,33 @@
 				}
 			}
 		}
+		
+		function fn_addFile(){
+			var fileIndex = 1;
+			//$("#fileIndex").append("<div><input type='file' style='float:left;' name='file_"+(fileIndex++)+"'>"+"<button type='button' style='float:right;' id='fileAddBtn'>"+"추가"+"</button></div>");
+			$(".fileAdd_btn").on("click", function(){
+				$("#fileIndex").append("<div><input type='file' style='float:left;' name='file_"+(fileIndex++)+"'>"+"</button>"+"<button type='button' style='float:right;' id='fileDelBtn'>"+"삭제"+"</button></div>");
+			});
+			$(document).on("click","#fileDelBtn", function(){
+				$(this).parent().remove();
+				
+			});
+		}
 	</script>
 	
 	<body>
-	
+
 		<div id="root">
+
 			<header>
+				<%@include file="nav_bar.jsp" %>
+				<br>
 				<h1> 게시판</h1>
 			</header>
 			<hr />
-			 
-			<div>
-				<%@include file="nav.jsp" %>
-			</div>
-			<hr />
 			
 			<section id="container">
-				<form name="writeForm" role="form" method="post" action="/board/write">
+				<form name="writeForm" role="form" method="post" action="/board/write" enctype="multipart/form-data">
 					<table>
 						<tbody>
 							<c:if test="${member.userId != null}">
@@ -66,11 +77,18 @@
 								</tr>
 								<tr>
 									<td>
-										<label for="writer">작성자</label><input type="text" id="writer" name="writer" class="chk" title="작성자를 입력하세요."/>
+										<label for="writer">작성자</label><input type="text" id="writer" name="writer" value=${member.userName} readonly="readonly"/>
 									</td>
+								</tr>
+								<tr>
+									<td id="fileIndex">
+										<input type="file" name="file">
+									</td>
+								</tr>
 								<tr>
 									<td>						
 										<button type="submit" class="write_btn">작성</button>
+										<button type="button" class="fileAdd_btn">파일추가</button>
 									</td>
 								</tr>
 							</c:if>	

@@ -1,6 +1,7 @@
 package co.kr.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import co.kr.vo.BoardVO;
 import co.kr.vo.SearchCriteria;
@@ -25,5 +26,18 @@ public interface BoardDAO {
 	//게시물 삭제
 	public void delete(int bno) throws Exception;
 	
+	//첨부파일 업로드
+	public void insertFile(Map<String, Object> map) throws Exception;
 	
+	//첨부파일 조회
+	public List<Map<String, Object>> selectFileList(int bno) throws Exception;
+	
+	//첨부파일 다운로드
+	public Map<String, Object> selectFileInfo(Map<String, Object> map) throws Exception;
+	
+	//첨부파일 수정
+	public void updateFile(Map<String, Object> map) throws Exception;
+	
+	//게시판 조회수
+	public void boardHit(int bno) throws Exception;
 }

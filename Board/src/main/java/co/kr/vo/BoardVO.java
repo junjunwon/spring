@@ -8,6 +8,14 @@ public class BoardVO {
 	private String content;
 	private String writer;
 	private Date regdate;
+	private int hit;
+	
+	public int getHit() {
+		return hit;
+	}
+	public void setHit(int hit) {
+		this.hit = hit;
+	}
 	public int getBno() {
 		return bno;
 	}

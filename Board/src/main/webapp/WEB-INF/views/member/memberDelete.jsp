@@ -17,7 +17,7 @@
 	$(document).ready(function(){
 		
 		$(".cancel").on("click", function(){
-			location.href="/";
+			history.back(); //이전 페이지로 돌아가기.
 		})
 		$("#submit").on("click", function(){
 			if($("#userPass").val()==""){

@@ -65,7 +65,7 @@
 								<input type="text" class="form-control" aria-describedby="emailHelp" placeholder="username" id="userId" name="userId">
 							</div>
 							<div class="form-group">
-								<label for="exampleInputEmail1">User ID</label>
+								<label for="exampleInputEmail1">User Password</label>
 								<input type="password" class="form-control" aria-describedby="emailHelp" placeholder="password" id="userPass" name="userPass">
 							</div>
 							<div class="form-group">

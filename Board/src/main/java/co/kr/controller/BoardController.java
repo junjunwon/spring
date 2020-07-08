@@ -92,6 +92,12 @@ public class BoardController {
 		return "board/readView";
 	}
 	
+	//board_temp
+	@RequestMapping(value="board_temp", method=RequestMethod.GET)
+	public void board_temp() throws Exception{
+		logger.info("board_temp");
+	}
+	
 	//첨부파일 다운
 	@RequestMapping(value="/fileDown")
 	public void fileDown(@RequestParam Map<String, Object> map, HttpServletResponse response) throws Exception{

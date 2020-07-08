@@ -4,6 +4,11 @@
 <!DOCTYPE html>
 <html>
 <head>
+
+
+	<link rel="icon" href="../../favicon.ico">
+	
+	
 	<!-- 합쳐지고 최소화된 최신 CSS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 	<!-- 부가적인 테마 -->
@@ -19,43 +24,47 @@
 </head>
 
 <body>
+			
+	<div class="container-fluid">
 
-	<div class="container">
-	
 		<header>
-			<div>
+			<div class="container">
 				<%@include file="nav_bar.jsp" %>
 			</div>
-			<div>
+			<div class="container">
 				<%@include file="nav.jsp" %>
 				<br>
 			</div>
 		</header>
+		<h1 class="page-header">게시판</h1>
 		
-		<section id="container">
-			<form role="form" method="get">
+		<div id="container-fluid">
 
-				<table class="table table-hover">
-					<tr><th>번호</th><th>제목</th><th>작성자</th><th>등록일</th><th>조회수</th></tr>
-					
-					<c:forEach items="${list}" var = "list">
-							<tr>
-								<td><c:out value="${list.bno}" /></td>
-								<td>
-									<a href="/board/readView?bno=${list.bno}&
-															page=${scri.page}&
-															perPageNum=${scri.perPageNum}&
-															searchType=${scri.searchType}&
-															keyword=${scri.keyword}"><c:out value="${list.title}"/></a>
-								</td>
-							
-								<td><c:out value="${list.writer}" /></td>
-								<td><fmt:formatDate value="${list.regdate}" pattern="yyyy-MM-dd"/></td>
-								<td><c:out value="${list.hit}" /></td>
-							</tr>
-					</c:forEach>
+			<form role="form" method="get">
+				<div class="table-responsive">
+					<table class="table table-striped">
+						<tr><th>번호</th><th>제목</th><th>작성자</th><th>등록일</th><th>조회수</th></tr>
 						
-				</table>
+						<c:forEach items="${list}" var = "list">
+								<tr>
+									<td><c:out value="${list.bno}" /></td>
+									<td>
+										<a href="/board/readView?bno=${list.bno}&
+																page=${scri.page}&
+																perPageNum=${scri.perPageNum}&
+																searchType=${scri.searchType}&
+																keyword=${scri.keyword}"><c:out value="${list.title}"/></a>
+									</td>
+								
+									<td><c:out value="${list.writer}" /></td>
+									<td><fmt:formatDate value="${list.regdate}" pattern="yyyy-MM-dd"/></td>
+									<td><c:out value="${list.hit}" /></td>
+								</tr>
+						</c:forEach>
+							
+					</table>
+				</div>
+				
 				<div class="search row">
 					<div class="col-xs-2 col-sm-2">
 					    <select name="searchType" class="form-control">
@@ -105,8 +114,7 @@
 				</div>
 				
 			</form>
-		</section>
-	
+		</div>
 	</div>
 </body>
 </html>

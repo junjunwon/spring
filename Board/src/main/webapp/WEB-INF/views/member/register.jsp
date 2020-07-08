@@ -107,7 +107,7 @@
 			</div>
 			<div class="form-group has-feedback">
 				<label class="control-label" for="userPass">패스워드</label>
-				<input class="form-control" type="text" id="userPass" name="userPass">
+				<input class="form-control" type="password" id="userPass" name="userPass">
 			</div>
 			<div class="form-group has-feedback">
 				<label class="control-label" for="userName">성명</label>

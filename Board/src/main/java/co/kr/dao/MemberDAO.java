@@ -1,5 +1,6 @@
 package co.kr.dao;
 
+import co.kr.vo.MemberDTO;
 import co.kr.vo.MemberVO;
 
 public interface MemberDAO {

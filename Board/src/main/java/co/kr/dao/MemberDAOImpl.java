@@ -5,6 +5,7 @@ import javax.inject.Inject;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import co.kr.vo.MemberDTO;
 import co.kr.vo.MemberVO;
 
 @Repository

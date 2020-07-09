@@ -17,12 +17,18 @@
 	)
 </insert>
 
+<resultMap type="co.kr.vo.MemberVO" id="memberVOResultMap">
+	<result property="userId" column="USERID"/>
+	<result property="userPass" column="USERPASS"/>
+	<result property="userName" column="USERNAME"/>
+</resultMap>
+
 <!-- 로그인 -->
-<select id="login" resultType="co.kr.vo.MemberVO">
+<select id="login" resultMap="memberVOResultMap">
 	SELECT USERID, USERPASS, USERNAME
 	from MP_MEMBER
 	WHERE USERID=#{userId}
-		AND USERPASS=#{userPass}
+		<!-- AND USERPASS=#{userPass} -->
 		
 </select>
 

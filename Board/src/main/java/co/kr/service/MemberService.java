@@ -16,6 +16,7 @@ public interface MemberService {
 	//로그인
 	public MemberVO login(MemberVO vo) throws Exception;
 	
+	
 	//아이디 중복체크
 	public int idChk(MemberVO vo) throws Exception;
 	

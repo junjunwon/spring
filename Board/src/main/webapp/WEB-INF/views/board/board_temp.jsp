@@ -17,14 +17,8 @@
   <header>
     <div>
       <h1><a href="#"><span class="hide">맛집커뮤니티</span></a></h1>
-      <nav>
-        <ul>
-          <li><a href="#"><span>홈</span></a></li>
-          <li><a href="#"><span>가까운 맛집</span></a></li>
-          <li><a href="#"><span>가성비 맛집</span></a></li>
-          <li><a href="#"><span>혼밥집</span></a></li>
-        </ul>
-      </nav>
+      <%@include file="nav_bar.jsp" %>
+
     </div>
   </header>
 
@@ -41,8 +35,8 @@
         </form>
         <div>
           <ul>
-            <li><a href="#">게시판1</a></li>
-            <li><a href="#">게시판2</a></li>
+            <p><li><a href="list">board</a></li></p>
+            <li><a href="board_temp">board_temp</a></li>
             <li><a href="#">게시판3</a></li>
             <li><a href="#">게시판4</a></li>
             <li><a href="#">게시판5</a></li>

@@ -67,6 +67,12 @@
 							<c:if test="${member.userId != null}">
 								<tr>
 									<td>
+										<a href="../board/list">뒤로가기</a>
+									</td>
+								</tr>
+								
+								<tr>
+									<td>
 										<label for="title">제목</label><input type="text" id="title" name="title" class="chk" title="제목을 입력하세요."/>
 									</td>
 								</tr>	

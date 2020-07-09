@@ -43,5 +43,6 @@
     <context:component-scan base-package="co.kr.dao"></context:component-scan>
     <context:component-scan base-package="co.kr.vo"></context:component-scan>
     <context:component-scan base-package="co.kr.util"></context:component-scan>
+    <context:component-scan base-package="co.kr.interceptor"></context:component-scan>
  
 </beans>

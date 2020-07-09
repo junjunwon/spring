@@ -66,7 +66,6 @@ public class BoardController {
 		pageMaker.setTotalCount(service.listCount(scri));
 		
 		model.addAttribute("pageMaker", pageMaker);
-		
 		return "board/list";
 		
 	}

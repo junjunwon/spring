@@ -1,5 +1,7 @@
 package co.kr.controller;
 
+import java.awt.Window;
+
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -82,11 +85,16 @@ public class MemberController {
 		 * 회원정보 수정 페이지에서 수정을 누르면 /memberUpdate 요청을 하고, 파라미터들을 service.memberUpdate(vo)에
 		 * 넣어줘서 service로 보낸다. 그리고 session.invalidate()로 세션을 끊고 로그인 페이지로 redirect해준다.
 		 */
+		logger.info("memberUpdate post");
+		System.out.println("유저가 변경한 비밀번호 : "+vo.getUserPass());
+		String hashedPw=BCrypt.hashpw(vo.getUserPass(), BCrypt.gensalt());
+		vo.setUserPass(hashedPw);
 		service.memberUpdate(vo);
 		session.invalidate();
 
 		return "redirect:/member/login";
 	}
+
 
 	// 회원탈퇴 GET
 	@RequestMapping(value = "/memberDeleteView", method = RequestMethod.GET)
@@ -95,7 +103,59 @@ public class MemberController {
 
 		return "member/memberDelete";
 	}
-
+	
+	static String temp="";
+	//회원 confirmPassword 페이지
+	@RequestMapping(value="/confirmPasswordView", method=RequestMethod.GET)
+	public String confirmPasswordDelete(HttpServletRequest request,String pageName, 
+					@ModelAttribute("memberVO") MemberVO memberVO) throws Exception{
+		logger.info("confirmPasswordView");
+		//String page=request.getServletPath().toString();
+		temp=request.getParameter("flag").toString();
+		System.out.println(temp);
+		System.out.println("=============");
+		//System.out.println(page);
+		System.out.println("=============");
+		return "member/confirmPasswordView";
+	}
+	
+	 
+	
+	  //주석처리 푸는 법 ctrl+shift+\
+	  //회원탈퇴 confirmPassword Post
+	  
+	
+	  @RequestMapping(value="/confirmPassword", method=RequestMethod.POST) 
+	  public String confirmPassword(MemberVO vo, HttpSession session, Model model) throws
+	  Exception{ 
+		  logger.info("confirmPassword Post");
+		  
+		  System.out.println("vo : "+vo);
+		  System.out.println("vo.getuserpass : "+vo.getUserPass()); 
+		  MemberVO member=(MemberVO)session.getAttribute("member"); 
+		  System.out.println("member : "+member);
+		  String sessionPass=member.getUserPass();
+		  System.out.println("sessionPass : "+sessionPass);
+		  System.out.println(temp);
+		  if(sessionPass==null || !BCrypt.checkpw(vo.getUserPass(), sessionPass)) 
+		  {
+			  System.out.println("password is wrong123"); 
+			  return "/member/confirmPasswordView"; 
+		  }
+		  
+		  System.out.println("password correct");
+		  if(temp.equals('C')) {
+			  return "redirect:/member/memberUpdateView";
+		  } else {
+			  return "redirect:/member/memberDeleteView";
+		  }
+		  
+		  
+	  
+	  }
+	 
+	 
+	
 	// 회원탈퇴 POST
 	@RequestMapping(value = "/memberDelete", method = RequestMethod.POST)
 	public String memberDelete(MemberVO vo, HttpSession session, RedirectAttributes rttr) throws Exception {
@@ -106,14 +166,16 @@ public class MemberController {
 		String sessionPass = member.getUserPass();
 		// vo로 들어오는 패스워드 (내가 입력하는)
 		String voPass = vo.getUserPass();
-
-		if (!(sessionPass.equals(voPass))) {
+		if(!BCrypt.checkpw(voPass, sessionPass)) {
 			rttr.addFlashAttribute("msg", false);
 
 			return "redirect:/member/memberDeleteView";
 		}
-
-		service.memberDelete(vo);
+		System.out.println("vo : "+vo);
+		System.out.println("voPass : "+voPass);
+		System.out.println("session : "+sessionPass);
+		System.out.println("member : "+member);
+		service.memberDelete(member);
 		session.invalidate();
 		return "redirect:/member/login";
 	}
@@ -195,4 +257,5 @@ public class MemberController {
 
 		return "redirect:/member/login";
 	}
+
 }

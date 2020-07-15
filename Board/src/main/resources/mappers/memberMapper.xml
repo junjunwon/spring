@@ -59,4 +59,5 @@
 	WHERE USERNAME=#{userName}
 </select>
 
+
 </mapper>

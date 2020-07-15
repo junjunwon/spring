@@ -17,7 +17,7 @@
 	$(document).ready(function(){
 		
 		$(".cancel").on("click", function(){
-			history.back(); //이전 페이지로 돌아가기.
+			location.href="../board/list"; //이전 페이지로 돌아가기.
 		})
 		$("#submit").on("click", function(){
 			if($("#userPass").val()==""){
@@ -50,6 +50,7 @@
 				<button class="btn btn-success" type="submit" id="submit">회원탈퇴</button>
 				<button class="cancel btn btn-danger" type="button">취소</button>
 			</div>
+			MeberVO
 			<c:if test="${msg==false}">
 				<a style="color:red;">패스워드가 틀립니다. 다시 입력해주세요.</a>
 			</c:if>

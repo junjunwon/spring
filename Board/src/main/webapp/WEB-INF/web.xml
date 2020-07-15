@@ -5,7 +5,7 @@
 	
 	<!-- 시작페이지 설정 -->
 	<welcome-file-list>
-		<welcom-file>/member/login.jsp</welcom-file>
+		<welcome-file>/member/login.jsp</welcome-file>
 	</welcome-file-list>
 	
 	<!-- The definition of the Root Spring Container shared by all Servlets and Filters -->

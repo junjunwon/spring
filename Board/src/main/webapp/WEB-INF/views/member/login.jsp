@@ -6,7 +6,7 @@
  	
 	 	<!--Custom styles-->
 		<link rel="stylesheet" type="text/css" href="../resources/css/style.css">
-		<script src="resources/js/boot.js"></script>
+		<script src="../resources/js/boot.js"></script>
 		<!-- 이걸로 곧 변경 -->
 		<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 		<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>

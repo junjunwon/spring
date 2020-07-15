@@ -9,7 +9,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <!-- <link rel="stylesheet" href="community.css"> -->
-  <link rel="stylesheet" href="../resources/css/board_temp.css">
+  <link rel="stylesheet" href="/resources/css/board_temp.css">
   <title>오늘 뭐 먹지? -직장인 편-</title>
 </head>
 <body>

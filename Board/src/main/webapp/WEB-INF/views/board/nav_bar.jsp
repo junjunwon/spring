@@ -10,7 +10,7 @@
 
 	
 		<!--Custom styles-->
-		<link rel="stylesheet" type="text/css" href="../resources/css/nav_bar.css">
+		<link rel="stylesheet" type="text/css" href="/resources/css/nav_bar.css">
 	</head>
 	<script type="text/javascript">
 		$(document).ready(function(){
@@ -19,14 +19,16 @@
 			})
 			
 			$("#memberUpdateBtn").on("click", function(){
-				location.href="../member/memberUpdateView";
+				location.href="../member/confirmPasswordView?flag=C";
 				//컨트롤러에 member/memberUpdateView로 가라는 말이 된다.
 			})
 			
 			$("#memberDeleteBtn").on("click", function(){
-				location.href="../member/memberDeleteView";
+				
+				location.href="../member/confirmPasswordView";
 				//컨트롤러에 member/memberUpdateView로 가라는 말이 된다.
 			})
+
 		
 		})
 	</script>
@@ -38,7 +40,7 @@
 	      <h1><a href="#"><span class="hide">맛집커뮤니티</span></a></h1>
 	      <nav>
 	        <ul>
-			  <li><a href="list"><span>홈</span></a></li>
+			  <li><a href="/board/list"><span>홈</span></a></li>
 	          <li><a href="#"><span>가까운 맛집</span></a></li>
 	          <li><a href="#"><span>가성비 맛집</span></a></li>
 	          <li><a href="#"><span>혼밥집</span></a></li>
@@ -68,18 +70,20 @@
 	                         <div class="navbar-footer">
 	                             <div class="navbar-footer-content">
 	                                 <div class="row">
-	
-	                                     <div class="col-md-4">
-	                                     	<button id="memberUpdateBtn" type="button" href="#" class="btn btn-default btn-sm">Edit Account</button>
-	                                     </div>
+										<form action="member/confirmPasswordView" method="get">
+											<div class="col-md-4">
+		                                     	<button name="memberUpdateBtn" id="memberUpdateBtn" type="button" href="#" class="btn btn-default btn-sm">Edit Account</button>
+		                                     </div>
+		                                     
+		                                     <div class="col-md-4">
+		                                     	<button id="memberDeleteBtn" type="button" href="#" class="btn btn-default btn-sm">Delete Account</button>
+		                                     </div>
+		                                     
+		                                     <div class="col-md-4">
+		                                         <button id="logoutBtn" type="button" href="#" class="btn btn-default btn-sm">Logout</button>
+		                                     </div>
+										</form>
 	                                     
-	                                     <div class="col-md-4">
-	                                     	<button id="memberDeleteBtn" type="button" href="#" class="btn btn-default btn-sm">Delete Account</button>
-	                                     </div>
-	                                     
-	                                     <div class="col-md-4">
-	                                         <button id="logoutBtn" type="button" href="#" class="btn btn-default btn-sm">Logout</button>
-	                                     </div>
 	                                 </div>
 	                             </div>
 	                         </div>

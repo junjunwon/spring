@@ -6,9 +6,9 @@
 <head>
 
 
-	<link rel="icon" href="../../favicon.ico">
+	<!-- <link rel="icon" href="../../favicon.ico"> -->
 	
-	<link rel="stylesheet" href="../resources/css/board_temp.css">
+	<link rel="stylesheet" href="/resources/css/board_temp.css">
 	
 	
 	<!-- 합쳐지고 최소화된 최신 CSS -->

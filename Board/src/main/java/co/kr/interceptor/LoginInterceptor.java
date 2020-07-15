@@ -29,8 +29,11 @@ public class LoginInterceptor extends HandlerInterceptorAdapter{
 			ModelAndView modelAndView) throws Exception {
 		// TODO Auto-generated method stub
 		HttpSession httpSession=request.getSession();
+		System.out.println("httpSession : "+httpSession);
 		ModelMap modelMap=modelAndView.getModelMap();
+		System.out.println("modelMap : "+modelMap);
 		Object memberVO=modelMap.get("member");
+		System.out.println("memberVO : "+memberVO);
 		
 		if(memberVO!=null) {
 			logger.info("new login success");

@@ -8,8 +8,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import co.kr.vo.MemberVO;
 
 /**
  * Handles requests for the application home page.
@@ -34,6 +37,14 @@ public class HomeController {
 		model.addAttribute("serverTime", formattedDate );
 		
 		return "home";
+	}
+	
+	
+	// Ä«Ä«¿À ¸Ê api
+	@RequestMapping(value = "/map", method = RequestMethod.GET)
+	public String map() {
+
+		return "/map";
 	}
 	
 }

@@ -29,6 +29,7 @@ public class MemberDAOImpl implements MemberDAO{
 	//È¸¿øÅ»Åð
 	@Override
 	public void memberDelete(MemberVO vo) throws Exception{
+		System.out.println("memberDelete of DAO : "+vo);
 		sqlSession.delete("memberMapper.memberDelete", vo);
 	}
 	

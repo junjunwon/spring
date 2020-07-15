@@ -28,6 +28,7 @@ public class MemberServiceImpl implements MemberService{
 	
 	//È¸¿øÅ»Åð
 	public void memberDelete(MemberVO vo) throws Exception{
+		System.out.println("memberDelete of Service : "+vo);
 		dao.memberDelete(vo);
 	}
 	

@@ -16,8 +16,16 @@
 
 <script type="text/javascript">
 	$(document).ready(function(){
+		
 		$(".cancel").on("click",function(){
 			location.href="/";
+		})
+	
+		
+		$("#serviceKey").on("click", function(){
+			var serviceKey="${serviceKey}";
+			alert("serviceKey is : "+serviceKey);
+			
 		})
 		
 		$("#submit").on("click", function(){
@@ -58,6 +66,11 @@
 	})
 	
 	function fn_idChk(){
+		
+		//한글 아이디로 가입못하게 정규화.
+		var korean =/[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
+		var string=$("#userId").val();
+		
 		$.ajax({
 			
 			url:"/member/idChk",
@@ -65,18 +78,33 @@
 			dataType:"json",
 			data:{"userId":$("#userId").val()},
 			success:function(data){
-				if(data==1){
-					alert("중복된 아이디입니다.");
-				}else if(data==0){
-					$("#idChk").attr("value","Y");
-					alert("사용 가능한 아이디입니다.");
+				
+				if($("#userId").val()==""){
+					alert("아이디를 입력해주세요.");
+					$("#userId").focus();
+					return false;
+				} else{
+					if(korean.test(string)){
+						alert("영문 아이디를 입력해주세요.");
+					} else{
+						if(data==1){
+							alert("중복된 아이디입니다.");
+						}else if(data==0){
+							$("#idChk").attr("value","Y");
+							alert("사용 가능한 아이디입니다.");
+						}
+					}
 				}
+
+				
 			}
 			
 		})
 	}
-	function fn_nameChk(){
 
+	
+	function fn_nameChk(){
+		
 		$.ajax({
 			
 			url:"/member/nameChk",
@@ -84,12 +112,19 @@
 			dataType:"json",
 			data:{"userName":$("#userName").val()},
 			success:function(data){
-				if(data==1){
-					alert("중복된 닉네임입니다.");
-				}else if(data==0){
-					$("#nameChk").attr("value","Y");
-					alert("사용 가능한 닉네임입니다.");
+				if($("#userName").val()==""){
+					alert("성명을 입력해주세요.");
+					$("#userName").focus();
+					return false;
+				} else{
+					if(data==1){
+						alert("중복된 닉네임입니다.");
+					}else if(data==0){
+						$("#nameChk").attr("value","Y");
+						alert("사용 가능한 닉네임입니다.");
+					}
 				}
+				
 			}
 			
 		})
@@ -97,7 +132,8 @@
 </script>
 
 <body>
-
+	
+	
 	<section id="container">
 		<form action="/member/register" method="post" id="regForm">
 			<div class="form-group has-feedback">
@@ -114,6 +150,7 @@
 				<input class="form-control" type="text" id="userName" name="userName">
 				<button type="button" class="nameChk" id="nameChk" onclick="fn_nameChk();" value="N">중복확인</button>
 			</div>
+			
 			<div class="form-group has-feedback">
 				<button type="submit" class="btn btn-success" id="submit">회원가입</button>
 				<button type="button" class="cancel btn-danger">취소</button>

@@ -26,6 +26,12 @@
 		location.href="../board/list/"
 	}
 
+	
+	$(document).ready(function(){
+		var result="${test}";
+		console.log("flag 값은 "+result);
+	})
+	
 </script>
 
 <body>
@@ -89,6 +95,7 @@
 					<p>고객님의 소중한 개인정보보호를 위해서 본인확인을 진행합니다.</p>
 				</div>
 				<form action="/member/confirmPassword" method='post'>
+					<input type="hidden" name="result" value="${test}"/>
 					<div class="review_box_list">
 						<label class="review_box_list" for="userPass">계정 비밀번호</label>
 						<input class="review_box_list" type="password" id="userPass" name="userPass"/>

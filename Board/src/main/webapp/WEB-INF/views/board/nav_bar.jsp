@@ -19,13 +19,13 @@
 			})
 			
 			$("#memberUpdateBtn").on("click", function(){
-				location.href="../member/confirmPasswordView?flag=C";
+				location.href="../member/confirmPasswordView?flag=update";
 				//컨트롤러에 member/memberUpdateView로 가라는 말이 된다.
 			})
 			
 			$("#memberDeleteBtn").on("click", function(){
 				
-				location.href="../member/confirmPasswordView";
+				location.href="../member/confirmPasswordView?flag=delete";
 				//컨트롤러에 member/memberUpdateView로 가라는 말이 된다.
 			})
 

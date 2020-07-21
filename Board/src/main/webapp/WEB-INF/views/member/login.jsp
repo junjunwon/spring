@@ -3,14 +3,15 @@
 <%@ page language="java" pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
 <html>
 <head>
- 	
+ 		<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	 	<!--Custom styles-->
 		<link rel="stylesheet" type="text/css" href="../resources/css/style.css">
-		<script src="../resources/js/boot.js"></script>
+		<script src="/resources/js/boot.js"></script>
 		<!-- 이걸로 곧 변경 -->
+		<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 		<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 		<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-		<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		
 		<!------ Include the above in your HEAD tag ---------->
 		
 		<script src="https://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js"></script>
@@ -44,7 +45,7 @@
 
 <body>
 
-<%-- ${member} --%>
+
 <%-- ${member}로 세션값이 잘 넘어오는지 확인하자. --%>
 	
 	<div class="container">

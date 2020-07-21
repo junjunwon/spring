@@ -3,8 +3,11 @@ package co.kr.dao;
 import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
+import co.kr.service.UserMailSendServiceImpl;
 import co.kr.vo.MemberDTO;
 import co.kr.vo.MemberVO;
 
@@ -53,4 +56,20 @@ public class MemberDAOImpl implements MemberDAO{
 		int result=sqlSession.selectOne("memberMapper.nameChk", vo);
 		return result;
 	}
+	
+	//유저 인증키 생성 메서드
+	@Override
+	public void GetKey(MemberVO vo) {
+		// TODO Auto-generated method stub
+		sqlSession.update("memberMapper.GetKey", vo);
+	}
+	
+	//유저 인증키 Y로 바꿔주는 메서드
+	@Override
+	public void alterUserKey(MemberVO vo) throws Exception {
+		// TODO Auto-generated method stub
+		System.out.println("alterUserKey vo : "+vo);
+		sqlSession.update("memberMapper.alterUserKey", vo);
+	}
+
 }

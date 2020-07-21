@@ -22,4 +22,10 @@ public interface MemberDAO {
 	
 	//닉네임 중복체크
 	public int nameChk(MemberVO vo) throws Exception;
+	
+	//유저 인증키 생성 메서드
+	public void GetKey(MemberVO vo) throws Exception;
+	
+	//유저 인증키 Y로 바꿔주는 메서드
+	public void alterUserKey(MemberVO vo) throws Exception;
 }

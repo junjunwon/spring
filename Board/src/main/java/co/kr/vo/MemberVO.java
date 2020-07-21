@@ -8,6 +8,9 @@ public class MemberVO {
 	private String userPass;
 	private String userName;
 	private Date regDate;
+	private String userEmail;
+	private String authKey;
+	private Integer userPhone;
 	
 	
 	public String getUserId() {
@@ -48,12 +51,44 @@ public class MemberVO {
 	public void setRegDate(Date regDate) {
 		this.regDate = regDate;
 	}
+	
+
+	public String getUserEmail() {
+		return userEmail;
+	}
+
+
+	public void setUserEmail(String userEmail) {
+		this.userEmail = userEmail;
+	}
+
+
+	public String getAuthKey() {
+		return authKey;
+	}
+
+
+	public void setAuthKey(String authKey) {
+		this.authKey = authKey;
+	}
+
+
+	public Integer getUserPhone() {
+		return userPhone;
+	}
+
+
+	public void setUserPhone(Integer userPhone) {
+		this.userPhone = userPhone;
+	}
 
 
 	@Override
 	public String toString() {
-		return "MemberVO [userId="+userId+", userPass="+userPass+", userName="+userName+", regDate="+regDate+"]";
+		return "MemberVO [userId=" + userId + ", userPass=" + userPass + ", userName=" + userName + ", regDate="
+				+ regDate + ", userEmail=" + userEmail + ", authKey=" + authKey + ", userPhone=" + userPhone + "]";
 	}
+
 
 
 }

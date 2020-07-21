@@ -1,8 +1,8 @@
 package co.kr.controller;
 
-import java.awt.Window;
 
 import javax.inject.Inject;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -10,16 +10,21 @@ import javax.servlet.http.HttpSession;
 import org.mindrot.jbcrypt.BCrypt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import co.kr.service.MemberService;
+import co.kr.service.UserMailSendService;
 import co.kr.vo.MemberVO;
 
 @Controller
@@ -43,7 +48,7 @@ public class MemberController {
 
 	// 회원가입 post
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
-	public String postRegister(MemberVO vo) throws Exception {
+	public String postRegister(MemberVO vo, HttpServletResponse response, HttpServletRequest request) throws Exception {
 
 		logger.info("post register");
 		int id_result = service.idChk(vo);
@@ -66,8 +71,20 @@ public class MemberController {
 		} catch (Exception e) {
 			throw new RuntimeException();
 		}
-
-		return "redirect:/member/login";
+		System.out.println("register->confirmemailview로 데이터 넘길때 vo getUserId : "+vo.getUserId());
+		String getUserId=vo.getUserId();
+		/*
+		 * 쿠키가 존재하는지 여부 확인 -> 있으면 지우기. userid가 항상 배열 0으로 올 수 있게.
+		 */
+		Cookie[] cookies=request.getCookies();
+		for(int i=0; i<cookies.length; i++) {
+			cookies[i].setMaxAge(0);
+		}
+		Cookie myCookie=new Cookie("userId", getUserId);
+		response.addCookie(myCookie);
+		
+		System.out.println();
+		return "redirect:/member/confirmEmailView";
 	}
 
 	// 회원정보 수정
@@ -112,10 +129,12 @@ public class MemberController {
 		logger.info("confirmPasswordView");
 		//String page=request.getServletPath().toString();
 		temp=request.getParameter("flag").toString();
+		/*
+		 * 회원탈퇴, 수정 분기를 나눌 flag를 deletebtn(delete), updatebtn(update)으로부터 가져온다. 
+		 */
 		System.out.println(temp);
-		System.out.println("=============");
-		//System.out.println(page);
-		System.out.println("=============");
+		
+		request.setAttribute("test", temp);
 		return "member/confirmPasswordView";
 	}
 	
@@ -126,9 +145,11 @@ public class MemberController {
 	  
 	
 	  @RequestMapping(value="/confirmPassword", method=RequestMethod.POST) 
-	  public String confirmPassword(MemberVO vo, HttpSession session, Model model) throws
+	  public String confirmPassword(HttpServletRequest request, MemberVO vo, HttpSession session, Model model) throws
 	  Exception{ 
 		  logger.info("confirmPassword Post");
+		  String result=request.getParameter("result");
+		  System.out.println("flag값은 "+result);
 		  
 		  System.out.println("vo : "+vo);
 		  System.out.println("vo.getuserpass : "+vo.getUserPass()); 
@@ -144,11 +165,11 @@ public class MemberController {
 		  }
 		  
 		  System.out.println("password correct");
-		  if(temp.equals('C')) {
+		  if(result.equals("update")) {
 			  return "redirect:/member/memberUpdateView";
-		  } else {
-			  return "redirect:/member/memberDeleteView";
 		  }
+		return "redirect:/member/memberDeleteView";
+		
 		  
 		  
 	  
@@ -187,7 +208,7 @@ public class MemberController {
 		int result = service.idChk(vo);
 		return result;
 	}
-
+	
 	// 닉네임 중복 체크
 	@ResponseBody
 	@RequestMapping(value = "/nameChk", method = RequestMethod.POST)
@@ -195,12 +216,88 @@ public class MemberController {
 		int result = service.nameChk(vo);
 		return result;
 	}
+	
+	@Autowired
+	private UserMailSendService mailsender;
+	
+	//email view get
+	@RequestMapping(value="/confirmEmailView", method=RequestMethod.GET)
+	public void confirmEmail(HttpServletRequest request, Model model) throws Exception{
+		logger.info("get confirmEmailView");
+		Cookie[] myCookies=request.getCookies();
+		System.out.println(myCookies[0].getValue());
+
+		String userId=myCookies[0].getValue();
+		model.addAttribute("userId", userId);
+	}
+	
+	
+	
+	//email 보내기 post
+	@RequestMapping(value="/sendEmail", method= RequestMethod.POST)
+	public String sendEmail(MemberVO vo, Model model, HttpServletRequest request, HttpServletResponse response) throws Exception{
+		
+		System.out.println(vo.getUserEmail()+"=========="+vo.getUserId());
+		System.out.println("vo 전체 값 : "+vo);
+		vo.setUserEmail(vo.getUserEmail());
+		vo.setUserId(vo.getUserId());
+		String key=mailsender.mailSendWithUserKey(vo, request);
+		model.addAttribute("modelKey", key);
+		System.out.println("service로부터 키값을 받아옴 : "+key);
+		
+		Cookie myCookie=new Cookie("modelKey", key);
+		response.addCookie(myCookie);
+		
+		
+		return "member/confirmEmailView";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/authKey", method=RequestMethod.POST)
+	public int authKey(MemberVO vo, Model model, HttpServletRequest request,HttpServletResponse response) throws Exception{
+		
+		Cookie[] cookies=request.getCookies();
+		int index=0;
+		int result=0; //0이면 인증번호 오류, 1이면 인증번호 맞음.
+		for(int i=0; i<cookies.length; i++) {
+			System.out.println("정답이 아닌 테스트 값 : "+cookies[i].getName());
+			if(cookies[i].getName().equals("modelKey")) {
+				System.out.println("정답 : "+cookies[i].getValue());
+				index=i;
+			}
+			
+		}
+		System.out.println("사용자 입력값 : "+ vo.getAuthKey()); 
+		String serverKey=cookies[index].getValue();//생성된 인증번호
+		String userKey=vo.getAuthKey();//유저가 입력한 인증번호
+		
+		if(serverKey.equals(userKey)) {
+			result=1;
+				if(cookies != null){ // 쿠키가 한개라도 있으면 실행
+					for(int i=0; i<cookies.length; i++) {
+						cookies[i].setMaxAge(0); // 유효시간을 0으로 설정
+						response.addCookie(cookies[i]); // 응답 헤더에 추가
+					}
+			}
+		}
+		System.out.println("result is : "+result);
+
+		return result;
+	}
+	
+	//e-mail 인증 컨트롤러
+	@RequestMapping(value="/keyAlter", method=RequestMethod.POST)
+	public void key_alterConfirm(MemberVO vo) throws Exception{
+		
+		logger.info("keyAlter ina");
+		logger.info("vo : "+vo);
+		mailsender.keyAlterConfirm(vo);		
+	}
 
 	// 로그인 페이지
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login(@ModelAttribute("memberVO") MemberVO memberVO) {
-
-		return "member/login";
+		return "/member/login";
 	}
 
 	// 로그인 Post

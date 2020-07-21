@@ -35,11 +35,13 @@
 	<interceptors>
 		<interceptor>
 			<mapping path="/member/memberDelete"/>
+			<mapping path="/member/confirmPassword"/>
+			<mapping path="/member/confirmPasswordView"/>
 			<mapping path="/member/memberUpdateView"/>
 			<mapping path="/board/*"/>
 			<beans:ref bean="authInterceptor"/>
 		</interceptor>
 	</interceptors>
-
+	
 	
 </beans:beans>

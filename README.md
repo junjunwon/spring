@@ -12,11 +12,11 @@
  
 ## Function
  * sign up
-  - double check function for ID, PASSWORD, USERNAME
-  - not able to move to next page unless you fill all up on the form.
-  - Email confirm function
+ >double check function for ID, PASSWORD, USERNAME
+ >not able to move to next page unless you fill all up on the form.
+ >Email confirm function
  * Login
-  - haven't developed "REMEMBER ME" function yet.
+ >haven't developed "REMEMBER ME" function yet.
  * Logout
  
   
